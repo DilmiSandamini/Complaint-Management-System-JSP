@@ -2,6 +2,8 @@ package lk.ijse.gdse72.cmsaad.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,12 +14,13 @@ public class UserDTO {
     private String userId;
     private String firstName;
     private String lastName;
-    private String mobilNumber;
-    private String userName;
+    private String mobileNumber;
+    private String username;
     private String email;
     private String password;
-    private String department;
     private String role;
+    private LocalDateTime createdAt;
+
 
     public boolean isAdmin(){return "ADMIN".equalsIgnoreCase(role);}
 
