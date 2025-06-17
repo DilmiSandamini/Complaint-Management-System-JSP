@@ -1,4 +1,5 @@
-<%--
+<%@ page import="lk.ijse.gdse72.cmsaad.dto.UserDTO" %>
+<%@ page import="lk.ijse.gdse72.cmsaad.dto.ComplaintDTO" %><%--
   Created by IntelliJ IDEA.
   User: chathuranga
   Date: 6/15/2025
@@ -8,7 +9,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/adminDashboard.css">
 </head>
 <body>
 

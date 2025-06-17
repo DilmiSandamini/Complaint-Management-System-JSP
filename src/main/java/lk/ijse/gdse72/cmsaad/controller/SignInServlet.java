@@ -28,24 +28,27 @@ public class SignInServlet extends HttpServlet {
 
         UserDTO user = userModel.checkAuthenticate(username, password);
 
-        if (user != null) {
-            HttpSession session = req.getSession();
-            session.setAttribute("user", user);
-            if (user.isAdmin()) {
-                System.out.println("IsAdmin");
-//                resp.sendRedirect(req.getContextPath() + "../../../web/view/admin-dashboard.jsp");
-                resp.sendRedirect(req.getContextPath() + "/jsp/dashboard-admin.jsp");
-            } else if (user.isEmployee()) {
-                System.out.println("IsEmployee");
-                resp.sendRedirect(req.getContextPath() + "/jsp/dashboard-employee.jsp");
-            } else {
-                System.out.println("Some Wrong");
-                resp.sendRedirect(req.getContextPath() + "/index.jsp?error=role");
-            }
-        } else {
+        if (user == null) {
             req.setAttribute("error", "Invalid Username or Password.");
             req.getRequestDispatcher("/index.jsp").forward(req, resp);
-
+            return;
         }
+
+        HttpSession session = req.getSession();
+        session.setAttribute("user", user);
+
+        String contextPath = req.getContextPath();
+
+        if (user.isAdmin()) {
+            System.out.println("Login successful - Admin user: " + user.getUsername());
+            resp.sendRedirect(contextPath + "/jsp/dashboard-admin.jsp");
+        } else if (user.isEmployee()) {
+            System.out.println("Login successful - Employee user: " + user.getUsername());
+            resp.sendRedirect(contextPath + "/jsp/dashboard-employee.jsp");
+        } else {
+            System.out.println("Login failed - Unknown role for user: " + user.getUsername());
+            resp.sendRedirect(contextPath + "/index.jsp?error=role");
+        }
+
     }
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login - Complaint Management System</title>
+  <title>Signin Page</title>
 <%--  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>--%>
   <link rel="stylesheet" href="css/signin.css">
 </head>
