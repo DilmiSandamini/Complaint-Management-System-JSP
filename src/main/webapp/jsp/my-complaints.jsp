@@ -63,7 +63,7 @@
                     complaints = complaintModel.getComplaintsByUser(userId);
                     System.out.println("Complaints loaded: " + complaints.size());
                 } catch (Exception e) {
-                    System.err.println(" Error loading complaints: " + e.getMessage());
+                    System.out.println(" Error loading complaints: " + e.getMessage());
                     e.printStackTrace();
                 }
 
@@ -89,7 +89,7 @@
                     %>
                     <a href="<%= request.getContextPath() %>/employee/edit-complaint?id=<%= complaint.getComplaintId() %>" class="btn">Edit</a>
                     <form action="<%= request.getContextPath() %>/complaint/delete-complaint" method="post" onsubmit="return confirm('Are you sure you want to delete this complaint?');">
-                        <input type="hidden" name="id" value="<%= complaint.getComplaintId() %>">
+                        <input type="hidden" name="complaintId" value="<%= complaint.getComplaintId() %>">
                         <button type="submit" class="btn">
                             🗑 Delete
                         </button>

@@ -84,6 +84,61 @@ public class ComplaintModel {
 
         return complaint;
     }
+
+    public ComplaintDTO getComplaintById(String complaintId) {
+        String sql = "SELECT c.*, " +
+                "CONCAT(u.firstName, ' ', u.lastName) AS submitted_by_name " +
+                "FROM complaints c " +
+                "LEFT JOIN users u ON c.submitted_by = u.userId " +
+                "WHERE c.complaintId = ?";
+
+
+        try (Connection conn = DatabaseConfig.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, complaintId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToComplaint(rs);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching complaint by ID", e);
+        }
+        return null;
+    }
+
+    public boolean deleteComplaint(String complaintId) {
+        String sql = "DELETE FROM complaints WHERE complaintId = ?";
+
+        try (Connection conn = DatabaseConfig.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, complaintId);
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting complaint", e);
+        }
+    }
+
+    public boolean deleteComplaintByEmployee(String complaintId, String userId) {
+        String sql = "DELETE FROM complaints WHERE complaintId = ? AND submitted_by = ? AND status = 'PENDING'";
+
+        try (Connection conn = DatabaseConfig.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, complaintId);
+            pstmt.setString(2, userId);
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting complaint by employee", e);
+        }
+    }
+
 }
 
 
