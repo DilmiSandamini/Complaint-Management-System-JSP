@@ -1,16 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: chathuranga
-  Date: 6/16/2025
-  Time: 8:48 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page session="true" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page import="lk.ijse.gdse72.cmsaad.dto.ComplaintDTO" %>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Submit Complaint Form</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Update Complaint</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -72,17 +67,6 @@
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.3);
         }
 
-        .invalid {
-            border: 1px solid #ff6b6b;
-        }
-
-        .error {
-            color: #ff6b6b;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
         input[type="submit"] {
             background: linear-gradient(to right, #1e3c72, #2a5298);
             color: #fff;
@@ -97,57 +81,30 @@
         input[type="submit"]:hover {
             background: linear-gradient(to right, #2a5298, #1e3c72);
         }
-
-        .dashboard-btn {
-            margin-top: 15px;
-        }
-
-        .dashboard-btn button {
-            width: 100%;
-            background: linear-gradient(to right, #1e3c72, #2a5298);
-            color: #fff;
-            padding: 10px;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .dashboard-btn button:hover {
-            background: linear-gradient(to right, #2a5298, #1e3c72);
-        }
     </style>
 </head>
-
 <body>
 <div class="container">
+    <h1>Edit Complaint</h1>
 
-    <h1>Submit Complaint</h1>
+    <form action="<%= request.getContextPath() %>/employee/update-complaint" method="post">
+        <%
+            ComplaintDTO complaint = (ComplaintDTO) request.getAttribute("complaint");
+        %>
 
-    <form action="${pageContext.request.contextPath}/employee/submit-complaint" method="post">
-
-        <label for="department">Department</label>
-        <input type="text" name="department" id="department"
-               class="${not empty departmentError ? 'invalid' : ''}">
-        <span class="error" id="departmentError">${departmentError != null ? departmentError : ''}</span>
+        <input type="hidden" name="complaintId" value="<%= complaint.getComplaintId() %>">
 
         <label for="title">Title</label>
-        <input type="text" name="title" id="title"
-               class="${not empty titleError ? 'invalid' : ''}">
-        <span class="error" id="titleError">${titleError != null ? titleError : ''}</span>
+        <input type="text" name="title" id="title" value="<%= complaint.getTitle() %>" required>
 
         <label for="description">Description</label>
-        <textarea name="description" rows="4" id="description"
-                  class="${not empty descriptionError ? 'invalid' : ''}"></textarea>
-        <span class="error" id="descriptionError">${descriptionError != null ? descriptionError : ''}</span>
+        <textarea name="description" rows="4" id="description" required><%= complaint.getDescription() %></textarea>
 
-        <input type="submit" value="Submit">
-    </form>
-    <form action="<%= request.getContextPath() %>/jsp/dashboard-employee.jsp" class="dashboard-btn">
-        <button type="submit">Dashboard</button>
+        <label for="department">Department</label>
+        <input type="text" name="department" id="department" value="<%= complaint.getDepartment() %>" required>
+
+        <input type="submit" value="Update">
     </form>
 </div>
 </body>
-
 </html>

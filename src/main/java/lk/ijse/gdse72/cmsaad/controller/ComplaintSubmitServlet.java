@@ -78,11 +78,11 @@ public class ComplaintSubmitServlet extends HttpServlet {
 
         if (saved) {
             System.out.println("saved Complaint ...");
-            resp.sendRedirect(req.getContextPath() + "/view/my-complaints.jsp?success=1");
+            resp.sendRedirect(req.getContextPath() + "/jsp/my-complaints.jsp?success=1");
         } else {
             System.out.println(" Save Failed Complaint ...");
             req.setAttribute("error", "Failed to submit complaint.");
-            req.getRequestDispatcher("/view/complaint-form.jsp").forward(req, resp);
+            req.getRequestDispatcher("/jsp/complaint-form.jsp").forward(req, resp);
         }
     }
 }

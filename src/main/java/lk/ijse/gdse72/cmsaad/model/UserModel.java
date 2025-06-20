@@ -7,7 +7,7 @@ import java.sql.*;
 
 public class UserModel {
     public static String generateUserId(){
-        return "USER_" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        return "USER_" + java.util.UUID.randomUUID().toString().substring(0, 5).toUpperCase();
     }
 
     public boolean saveUser(UserDTO userDTO){

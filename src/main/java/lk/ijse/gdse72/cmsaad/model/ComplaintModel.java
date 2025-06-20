@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class ComplaintModel {
     public static String generateComplaintId() {
-        return "CMP_" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        return "CMP_" + UUID.randomUUID().toString().substring(0, 5).toUpperCase();
     }
 
     public boolean createComplaint(ComplaintDTO complaint) {
@@ -71,6 +71,8 @@ public class ComplaintModel {
         complaint.setStatus(rs.getString("status"));
         complaint.setSubmittedBy(rs.getString("submitted_by"));
         complaint.setSubmittedByName(rs.getString("submitted_by_name"));
+        complaint.setAdminRemarks(rs.getString("admin_remarks"));
+
 
         Timestamp createdAt = rs.getTimestamp("created_at");
         if (createdAt != null) {
@@ -139,6 +141,68 @@ public class ComplaintModel {
         }
     }
 
+    public boolean updateComplaint(ComplaintDTO complaint) {
+        String sql = "UPDATE complaints SET title = ?, description = ?, department = ?, " +
+                "updated_at = ? WHERE complaintId = ?";
+
+        try (Connection conn = DatabaseConfig.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, complaint.getTitle());
+            pstmt.setString(2, complaint.getDescription());
+            pstmt.setString(3, complaint.getDepartment());
+            pstmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setString(5, complaint.getComplaintId());
+
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Updating complaint error", e);
+        }
+    }
+
+    public List<ComplaintDTO> getAllComplaints() {
+        List<ComplaintDTO> complaints = new ArrayList<>();
+
+        String sql = "SELECT c.*, u.username as submitted_by_name " +
+                "FROM complaints c " +
+                "LEFT JOIN users u ON c.submitted_by = u.userId " +
+                "ORDER BY c.created_at DESC";
+
+        try (Connection conn = DatabaseConfig.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                complaints.add(mapResultSetToComplaint(rs));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching all complaints", e);
+        }
+        return complaints;
+    }
+
+    public boolean updateComplaintStatus(String complaintId, String status,String adminRemarks) {
+        String sql = "UPDATE complaints SET status = ?, admin_remarks = ?, updated_at = ? WHERE complaintId = ?";
+
+        try (Connection conn = DatabaseConfig.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, status);
+            pstmt.setString(2, adminRemarks);
+            pstmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setString(4, complaintId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+
+            System.err.println("Error updating complaint status: " + e.getMessage());
+            throw new RuntimeException("Error updating complaint status", e);
+        }
+    }
 }
 
 

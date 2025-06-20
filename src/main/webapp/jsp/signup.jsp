@@ -1,9 +1,114 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>SignUp page</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/signup.css">
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Style -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top center, #1a2a6c, #1e3c72, #2a5298);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .signup-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            padding: 50px;
+            width: 120%;
+            max-width: 900px;
+            margin-right: 70px;
+        }
+
+        .signup-form h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .information-box {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 200;
+            color: #ddd;
+        }
+
+        .form-control, input, select {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .form-control:focus, input:focus, select:focus {
+            background: rgba(255, 255, 255, 0.15);
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .invalid {
+            border: 1px solid #ff6b6b;
+        }
+
+        .error {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .signup-button {
+            width: 100%;
+            background: linear-gradient(to right, #4f72b4,#6c8fcd);
+            color: #fff;
+            padding: 10px;
+            font-weight: 300;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .signup-button:hover {
+            background: linear-gradient(to right, #2a5298, #1e3c72);
+        }
+
+        .information-box2 {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        #signin-lable {
+            color: #ccc;
+        }
+
+        #signin {
+            color: #00f2fe;
+            text-decoration: none;
+        }
+
+        #signin:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
 <main>
     <section class="signup-container">
@@ -85,4 +190,6 @@
         </form>
     </section>
 </main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/signup-validation.js"></script>
 </body>

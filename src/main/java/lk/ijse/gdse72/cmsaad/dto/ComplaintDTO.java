@@ -18,6 +18,7 @@ public class ComplaintDTO {
     private String status;
     private String submittedBy;
     private String submittedByName;
+    private String adminRemarks;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
